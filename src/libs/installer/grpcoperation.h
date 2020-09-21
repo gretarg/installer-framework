@@ -8,6 +8,7 @@ namespace QInstaller {
 class INSTALLER_EXPORT GrpcOperation : public QObject, public Operation
 {
     Q_OBJECT
+
 public:
     explicit GrpcOperation(PackageManagerCore *core);
 

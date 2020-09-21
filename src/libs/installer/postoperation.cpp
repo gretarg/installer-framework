@@ -60,7 +60,7 @@ bool PostOperation::performOperation()
     QEventLoop synchronous;
     QNetworkRequest request;
     
-    connect(nam, SIGNAL(finished(QNetworkReply*)), &synchronous, SLOT(quit()));
+    connect(nam, SIGNAL(finished(QNetworkReply*)), &synchronous, SLOT());
     request.setUrl(QUrl(url));
     request.setHeader(QNetworkRequest::ContentTypeHeader, QLatin1String("application/x-www-form-urlencoded"));
 

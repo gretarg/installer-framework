@@ -3,11 +3,10 @@ TARGET = installer
 INCLUDEPATH += . ..
 
 CONFIG += staticlib
-
+CONFIG += c++1z
 include(../7zip/7zip.pri)
 include(../kdtools/kdtools.pri)
 include(../../../installerfw.pri)
-include(grpc.pro)
 
 # productkeycheck API
 # call qmake "PRODUCTKEYCHECK_PRI_FILE=<your_path_to_pri_file>"
@@ -16,7 +15,17 @@ include(grpc.pro)
 #   ...
 #   your files if needed
 HEADERS += productkeycheck.h \
-    grpcoperation.h
+    grpcoperation.h \
+    httpthreadcontroller.h \
+    httpthreadworker.h \
+    installereventoperation.h \
+    pdm/include/pdm.h \
+    pdm/include/pdm_data.h \
+    pdm/src/defines.h \
+    pdm/src/gatherer.h \
+    pdm/src/utilities.h \
+    pdm/src/windows/d3d11_info.h \
+    pdm/src/windows/vulkan_defs.h
 !isEmpty(PRODUCTKEYCHECK_PRI_FILE) {
     # use undocumented no_batch config which disable the implicit rules on msvc compilers
     # this fixes the problem that same cpp files in different directories are overwritting
@@ -137,24 +146,28 @@ HEADERS += packagemanagercore.h \
     lib7z_list.h \
     repositorycategory.h \
     componentselectionpage_p.h \
-    eventlogger.h \
-    eve_launcher/launcher.grpc.pb.h \
-    eve_launcher/gateway.grpc.pb.h \
-    eve_launcher/graphics.grpc.pb.h \
-    eve_launcher/launcher.pb.h \
-    eve_launcher/gateway.pb.h \
-    eve_launcher/graphics.pb.h \
-    eve_launcher/user.pb.h \
-    eve_launcher/user.grpc.pb.h
+    eventlogger.h
 
 
 SOURCES += packagemanagercore.cpp \
     grpcoperation.cpp \
+    httpthreadcontroller.cpp \
+    httpthreadworker.cpp \
+    installereventoperation.cpp \
     packagemanagercore_p.cpp \
     packagemanagergui.cpp \
     binaryformat.cpp \
     binaryformatengine.cpp \
     binaryformatenginehandler.cpp \
+    pdm/src/gatherer.cpp \
+    pdm/src/macos/macos_data.cpp \
+    pdm/src/main.cpp \
+    pdm/src/pdm.cpp \
+    pdm/src/utilities.cpp \
+    pdm/src/windows/d3d11_info.cpp \
+    pdm/src/windows/vulkan_info.cpp \
+    pdm/src/windows/windows_data.cpp \
+    pdm/src/wine/wine.cpp \
     repository.cpp \
     fileutils.cpp \
     utils.cpp \
@@ -226,15 +239,7 @@ SOURCES += packagemanagercore.cpp \
     packagesource.cpp \
     repositorycategory.cpp \
     componentselectionpage_p.cpp \
-    eventlogger.cpp \
-    eve_launcher/launcher.grpc.pb.cc \
-    eve_launcher/gateway.grpc.pb.cc \
-    eve_launcher/graphics.grpc.pb.cc \
-    eve_launcher/launcher.pb.cc \
-    eve_launcher/gateway.pb.cc \
-    eve_launcher/graphics.pb.cc \
-    eve_launcher/user.pb.cc \
-    eve_launcher/user.grpc.pb.cc
+    eventlogger.cpp
 
 FORMS += proxycredentialsdialog.ui \
     serverauthenticationdialog.ui
@@ -260,3 +265,6 @@ win32 {
 
 target.path = $$[QT_INSTALL_LIBS]
 INSTALLS += target
+
+DISTFILES += \
+    pdm/include/version.h.in

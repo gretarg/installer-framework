@@ -49,6 +49,7 @@
 #include "consumeoutputoperation.h"
 #include "postoperation.h"
 #include "grpcoperation.h"
+#include "installereventoperation.h"
 
 #include "lib7z_facade.h"
 #include "utils.h"
@@ -169,6 +170,7 @@ void QInstaller::init()
     factory.registerUpdateOperation<SettingsOperation>(QLatin1String("Settings"));
     factory.registerUpdateOperation<PostOperation>(QLatin1String("Post"));
     factory.registerUpdateOperation<GrpcOperation>(QLatin1String("Grpc"));
+    factory.registerUpdateOperation<InstallerEventOperation>(QLatin1String("InstallerEvent"));
 
     FileDownloaderFactory::setFollowRedirects(true);
 
